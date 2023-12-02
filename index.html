@@ -1,0 +1,165 @@
+<html lang="en">
+	<head>
+		<style>
+			z { 
+			  border-top-color: #ffffff !important;
+			  border-right-color: #87888F !important;
+			  border-bottom-color: #87888F !important;
+			  border-left-color: #ffffff !important;
+			}
+		</style>
+		<style> a { color: rgb(0  ,0  ,255); background: url("A.png") no-repeat center; } </style>
+		<style> b { color: rgb(0  ,168,87 ); background: url("B.png") no-repeat center; } </style>
+		<style> c { color: rgb(255,0  ,0  ); background: url("C.png") no-repeat center; } </style>
+		<style> d { color: rgb(0  ,0  ,168); background: url("D.png") no-repeat center; } </style>
+		<style> e { color: rgb(168,0  , 87); background: url("E.png") no-repeat center; } </style>
+		<style> f { color: rgb(  0,128,128); background: url("F.png") no-repeat center; } </style>
+		<style> g { color: rgb(  0,1  ,  0); background: url("G.png") no-repeat center; } </style>
+		<style> h { color: rgb(127,129,126); background: url("H.png") no-repeat center; } </style>
+		
+/* Inline #10 | file:///c:/users/vhaas/desktop/minesweeper_html/index.html */
+
+l {
+  /* color: rgb(127,129,126); */
+  color: rgb(255, 0, 0);
+  border-top-color: #F00 !important;
+  border-right-color: red !important;
+  border-bottom-color: red !important;
+  border-left-color: #F00 !important;
+}
+
+/* Elemento | file:///c:/users/vhaas/desktop/minesweeper_html/index.html */
+
+<style> k { color: rgb(127,129,126); background: url("daBomb.png") no-repeat center; } </style>
+<style> l { color: rgb(127,129,126); background: url("firstBomb.png") no-repeat center; } </style>
+		<style> x { color: rgb(127,129,126); background: url("daFlag.png") no-repeat center; } </style>
+		<style>
+			t * {
+				height: 13px !important;
+				width: 13px !important;
+				background-color: #C0C7C8;
+				text-align: center;
+				vertical-align: middle;
+				padding: 0px;
+				margin: 0px;
+				display: inline-grid;
+
+				border: 2px solid;
+				border-top-color: #87888F;
+				border-right-color: #C0C7C8;
+				border-bottom-color: #C0C7C8;
+				border-left-color: #87888F;
+			}
+			t {
+				display: block ruby;
+			}
+		</style>
+		<script>
+try {
+  game = document.getElementsByTagName("game")[0];
+} catch (e) {
+  game = document.createElement("game");
+  document.body.append(game)
+}
+
+horz = 25; // colunas 
+vert = 25; // linhas
+nbomb = 10; // bombas
+
+game_grid = Array(vert)
+for (var i = 0; i < vert; i++)
+  game_grid[i] = Array(horz)
+
+
+game_grid[0][0] = "k"
+game_grid[7][1] = "k"
+game_grid[5][2] = "k"
+game_grid[5][3] = "k"
+game_grid[6][3] = "k"
+game_grid[12][12] = "k"
+
+
+game_grid[6][3] = "k"
+
+game.onclick = function(evento) {
+  evento.preventDefault()
+  EVENTClick = evento
+  DOMobjeto = evento.target
+  if (DOMobjeto.tagName.toLowerCase() != "z") {
+    return false;
+  }
+  y = getPosition(DOMobjeto.parentNode)
+  x = getPosition(DOMobjeto)
+
+  if (game_grid[y][x] == "k") {
+    DOMobjeto.outerHTML = "<l></l>"
+
+    for (var a = 0; a <= horz; a++)
+      for (var b = 0; b <= vert; b++)
+		if ( b!=x && a!=y) try {
+        if (game_grid[a][b] == "k")
+          setTimeout((a, b) => {
+            game.childNodes[a].childNodes[b].outerHTML = "<k></k>"
+          }, 0, a, b)
+      } catch (_) {}
+	  game.onclick = null
+    return false;
+  } else {
+    console.info(game.childNodes[y].childNodes[x])
+  }
+  contarBombas = 0
+  for (var a = y - 1; a <= y + 1; a++)
+    for (var b = x - 1; b <= x + 1; b++) try {
+      if (game_grid[a][b] == "k")
+        contarBombas++
+    } catch (_) {}
+  DOMobjeto.outerHTML = "<" + ("oabcdefgh" [contarBombas]) + "></" + ("oabcdefgh" [contarBombas]) + ">"
+
+  if (contarBombas == 0)
+    for (var a = y - 1; a <= y + 1; a++)
+      for (var b = x - 1; b <= x + 1; b++) try {
+        if (game.childNodes[a].childNodes[b].tagName.toLowerCase() == "z")
+          setTimeout((a, b) => {
+            game.childNodes[a].childNodes[b].click()
+          }, 0, a, b)
+      } catch (_) {}
+  return false;
+}
+game.onauxclick = function(evento) {
+  evento.preventDefault()
+  EVENTClick = evento
+  DOMobjeto = evento.target
+
+  if (DOMobjeto.tagName.toLowerCase() == "z") {
+    DOMobjeto.outerHTML = "<x></x>"
+    return false;
+  } else if (DOMobjeto.tagName.toLowerCase() == "x") {
+    DOMobjeto.outerHTML = "<z></z>"
+    return false;
+  }
+}
+
+getPosition = function(DOM) {
+  lista = DOM.parentNode.childNodes
+  for (var i = 0; i < lista.length; i++)
+    if (lista[i] === DOM) return i;
+}
+
+function rand(lowest, highest) {
+  var adjustedHigh = (highest - lowest) + 1;
+  return Math.floor(Math.random() * adjustedHigh) + parseFloat(lowest);
+}
+colunas = "";
+linhas = "";
+for (var a = 0; a < horz; a++) colunas = colunas + "<z></z>";
+for (var a = 0; a < vert; a++) linhas = linhas + "<t>" + colunas + "</t>"
+game.innerHTML = linhas;
+null
+		</script>
+	</head>
+
+	<body style="background-color: #0D8584;">
+		<settings></settings>
+		<game></game>
+	</body>
+</html>
