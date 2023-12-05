@@ -48,24 +48,20 @@ try {
   document.body.append(game)
 }
 
-horz = 25; // colunas 
+horz = 35; // colunas 
 vert = 25; // linhas
-nbomb = 10; // bombas
+nbomb = 100; // bombas
 
 game_grid = Array(vert)
 for (var i = 0; i < vert; i++)
   game_grid[i] = Array(horz)
 
-
-game_grid[0][0] = "k"
-game_grid[7][1] = "k"
-game_grid[5][2] = "k"
-game_grid[5][3] = "k"
-game_grid[6][3] = "k"
-game_grid[12][12] = "k"
-
-
-game_grid[6][3] = "k"
+for( var i=0;i<nbomb;i++ ){
+  var x = Math.floor(Math.random() * horz);
+  var y = Math.floor(Math.random() * vert);
+  if(game_grid[y][x] == "k"){ i--;continue }
+  game_grid[y][x] = "k";
+}
 
 game.onclick = function(evento) {
   evento.preventDefault()
@@ -78,20 +74,19 @@ game.onclick = function(evento) {
   x = getPosition(DOMobjeto)
 
   if (game_grid[y][x] == "k") {
+		game.onclick = null
     DOMobjeto.outerHTML = "<l></l>"
-
-    for (var a = 0; a <= horz; a++)
-      for (var b = 0; b <= vert; b++)
-		if ( b!=x && a!=y) try {
-        if (game_grid[a][b] == "k")
-          setTimeout((a, b) => {
-            game.childNodes[a].childNodes[b].outerHTML = "<k></k>"
-          }, 0, a, b)
-      } catch (_) {}
-	  game.onclick = null
+    for (var a = 0; a <= vert; a++)
+      for (var b = 0; b <= horz; b++)
+        if ( b==x && a==y ){
+          DOMobjeto.outerHTML = "<l></l>"
+        } else {
+          if (game_grid[a][b] == "k")
+            setTimeout((a, b) => {
+              game.childNodes[a].childNodes[b].outerHTML = "<k></k>"
+            }, a*10+b*10, a, b)
+        }
     return false;
-  } else {
-    console.info(game.childNodes[y].childNodes[x])
   }
   contarBombas = 0
   for (var a = y - 1; a <= y + 1; a++)
@@ -107,7 +102,7 @@ game.onclick = function(evento) {
         if (game.childNodes[a].childNodes[b].tagName.toLowerCase() == "z")
           setTimeout((a, b) => {
             game.childNodes[a].childNodes[b].click()
-          }, 0, a, b)
+          }, 30, a, b)
       } catch (_) {}
   return false;
 }
@@ -146,5 +141,6 @@ null
 
 	<body style="background-color: #0D8584;">
 		<settings></settings>
+		<game></game>
 	</body>
 </html>
