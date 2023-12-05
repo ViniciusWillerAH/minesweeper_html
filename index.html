@@ -64,6 +64,7 @@ for( var i=0;i<nbomb;i++ ){
   game_grid[y][x] = "k";
 }
 
+
 game.onclick = function(evento) {
   evento.preventDefault()
   EVENTClick = evento
@@ -88,7 +89,7 @@ game.onclick = function(evento) {
 		      game.childNodes[a].childNodes[b].outerHTML = "<k></k>"
 		    }, a*10+b*10, a, b)
 		}
-      }
+      } catch(_){}
     return false;
   }
   contarBombas = 0
