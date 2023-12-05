@@ -41,6 +41,7 @@
 			}
 		</style>
 		<script>
+setTimeout(function(){
 try {
   game = document.getElementsByTagName("game")[0];
 } catch (e) {
@@ -136,6 +137,7 @@ for (var a = 0; a < horz; a++) colunas = colunas + "<z></z>";
 for (var a = 0; a < vert; a++) linhas = linhas + "<t>" + colunas + "</t>"
 game.innerHTML = linhas;
 null
+},100)
 		</script>
 	</head>
 
