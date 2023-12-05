@@ -79,14 +79,16 @@ game.onclick = function(evento) {
     DOMobjeto.outerHTML = "<l></l>"
     for (var a = 0; a <= vert; a++)
       for (var b = 0; b <= horz; b++)
-        if ( b==x && a==y ){
-          DOMobjeto.outerHTML = "<l></l>"
-        } else {
-          if (game_grid[a][b] == "k")
-            setTimeout((a, b) => {
-              game.childNodes[a].childNodes[b].outerHTML = "<k></k>"
-            }, a*10+b*10, a, b)
-        }
+	try{
+		if ( b==x && a==y ){
+		  DOMobjeto.outerHTML = "<l></l>"
+		} else {
+		  if (game_grid[a][b] == "k")
+		    setTimeout((a, b) => {
+		      game.childNodes[a].childNodes[b].outerHTML = "<k></k>"
+		    }, a*10+b*10, a, b)
+		}
+      }
     return false;
   }
   contarBombas = 0
